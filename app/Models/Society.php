@@ -17,4 +17,9 @@ class Society extends Model
     protected $primaryKey = "id";
 
     public $timestamps = false;
+
+    public function regional()
+    {
+        return $this->belongsTo(Regional::class, 'regional_id', 'id');
+    }
 }
