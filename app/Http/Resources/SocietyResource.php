@@ -15,14 +15,17 @@ class SocietyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id_society' => $this->id,
-            'id_card_number' => $this->id_card_number,
-            'password' => $this->password,
             'name' => $this->name,
             'born_date' => $this->born_date,
             'gender' => $this->gender,
             'address' => $this->address,
-            'regional_id' => $this->regional->district,
+            'token' => $this->token,
+            'regional' => [
+                'id' => $this->regional->id,
+                'province' => $this->regional->province,
+                'district' => $this->regional->district,
+            ],
         ];
     }
+    
 }
