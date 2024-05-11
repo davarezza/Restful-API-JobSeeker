@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SocietyRequest;
 use App\Http\Resources\SocietyResource;
+use App\Models\Validation;
 
 class SocietyController extends Controller
 {
@@ -83,6 +84,23 @@ class SocietyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Sukses menghapus data'
+        ],200);
+    }
+
+    public function validation(Request $request)
+    {
+        $dataValidation = new Validation();
+        $user = auth()->user();
+        $dataValidation->work_experience = $request->work_experience;
+        $dataValidation->job_category_id = $request->job_category_id;
+        $dataValidation->job_position = $request->job_position;
+        $dataValidation->reason_accepted = $request->reason_accepted;
+        $dataValidation->society_id = $user->id;
+        $dataValidation->save();
+
+        return response()->json([
+            'message' => 'Request data validation sent successful',
+            'data' => $dataValidation,
         ],200);
     }
 }
