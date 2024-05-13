@@ -22,7 +22,7 @@ class SocietyController extends Controller
             'message' => 'Data ditemukan',
             // 'data' => $data
             'data' => SocietyResource::collection($data),
-        ],200);
+        ], 200);
     }
 
     /**
@@ -31,14 +31,14 @@ class SocietyController extends Controller
     public function store(SocietyRequest $request)
     {
         $dataSociety = new Society();
-        
+
         $dataSociety = Society::create($request->all());
 
         return response()->json([
             'status' => true,
             'message' => 'Sukses menambahkan data',
             'data' => $dataSociety,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -50,7 +50,7 @@ class SocietyController extends Controller
             'status' => true,
             'message' => 'Sukses menemukan data',
             'data' => new SocietyResource($society),
-        ],200);
+        ], 200);
     }
 
     /**
@@ -71,7 +71,7 @@ class SocietyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Sukses mengedit data'
-        ],200);
+        ], 200);
     }
 
     /**
@@ -84,13 +84,22 @@ class SocietyController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Sukses menghapus data'
-        ],200);
+        ], 200);
     }
 
     public function validation(Request $request)
     {
         $dataValidation = new Validation();
         $user = auth()->user();
+
+        $existingValidation = Validation::where('society_id', $user->id)->first();
+
+        if ($existingValidation) {
+            return response()->json([
+                'error' => 'Validation request already exists for this user',
+            ], 400);
+        }
+
         $dataValidation->work_experience = $request->work_experience;
         $dataValidation->job_category_id = $request->job_category_id;
         $dataValidation->job_position = $request->job_position;
@@ -101,6 +110,6 @@ class SocietyController extends Controller
         return response()->json([
             'message' => 'Request data validation sent successful',
             'data' => $dataValidation,
-        ],200);
+        ], 200);
     }
 }
