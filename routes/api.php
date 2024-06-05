@@ -6,6 +6,7 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\SocietyController;
 use App\Http\Controllers\api\RegionalController;
 use App\Http\Controllers\api\JobCategoryController;
+use App\Http\Controllers\api\ValidationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::prefix('v1/auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
+    Route::post('validator/login', [ValidationController::class, 'loginValidator']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
